@@ -2,36 +2,36 @@ import React, { Component } from 'react';
 
 
 class App extends React.Component {
-
-  clientInput = React.createRef();
   state = {
     clients: [
       { id: 1, name: "Bonevy BEBY" },
       { id: 2, name: "Bonevy BEBY" },
       { id: 3, name: "Bonevy BEBY" },
-
     ],
-    //  counter: 0
+    newClient: 'Bonevy',
+
   }
-  // handleClick = () => {
-  // this.setState({ counter: this.state.counter + 1 })
-  //   const clients = this.state.clients.slice();
-  //   clients.push({ id: 4, name: "Ketsia BEBY" });
-  //   this.setState({ clients: clients });
-  // }
+
   handleDelete = id => {
-    // console.log(id)
     const clients = this.state.clients.slice();
-    /*const index = clients.findIndex(function (client) {
-      return client.id === id;
-    });*/
+
     const index = clients.findIndex((client) => client.id === id);
     clients.splice(index, 1);
     this.setState({ clients: clients });
   }
   handleSubmit = event => {
     event.preventDefault();
-    console.log(this.clientInput.current.value);
+    const id = new Date().getTime();
+    const name = this.state.newClient;
+    const clientTemp = { id, name };
+    const clients = this.state.clients.slice();
+    clients.push(clientTemp);
+    this.setState({ clients: clients })
+  }
+  handleOnchange = (event) => {
+    const value = event.currentTarget.value;
+    this.setState({ newClient: value });
+    console.log(event.currentTarget.value)
   }
 
   render() {
@@ -44,7 +44,7 @@ class App extends React.Component {
             <button onClick={() => this.handleDelete(client.id)}>x</button></li>)}
         </ul>
         <form onSubmit={this.handleSubmit}>
-          <input type="text" placeholder="enter your name" ref={this.clientInput} />
+          <input type="text" placeholder="enter your name" value={this.state.newClient} onChange={this.handleOnchange} />
           <button>Confirmer</button>
         </form>
       </div>
