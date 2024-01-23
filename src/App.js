@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Client from './components/Client';
+import ClientForm from './components/ClientForm';
 
 
 class App extends React.Component {
@@ -8,31 +10,32 @@ class App extends React.Component {
       { id: 2, name: "Bonevy BEBY" },
       { id: 3, name: "Bonevy BEBY" },
     ],
-    newClient: 'Bonevy',
 
   }
 
   handleDelete = id => {
-    const clients = this.state.clients.slice();
-
+    //const clients = this.state.clients.slice();
+    const clients = [...this.state.clients];
     const index = clients.findIndex((client) => client.id === id);
     clients.splice(index, 1);
-    this.setState({ clients: clients });
+    //this.setState({ clients: clients });
+    this.setState({ clients });
   }
-  handleSubmit = event => {
-    event.preventDefault();
-    const id = new Date().getTime();
-    const name = this.state.newClient;
-    const clientTemp = { id, name };
-    const clients = this.state.clients.slice();
-    clients.push(clientTemp);
-    this.setState({ clients: clients })
+  //handleSubmit taken into ClientForm
+  /* handleOnchange = (event) => {
+     const value = event.currentTarget.value;
+     this.setState({ newClient: value });
+     console.log(event.currentTarget.value)
+ 
+   }*/
+
+  handleAdd = client => {
+    const clients = [...this.state.clients];
+    //clients.push(clientTemp);
+    clients.push(client);
+    this.setState({ clients })
   }
-  handleOnchange = (event) => {
-    const value = event.currentTarget.value;
-    this.setState({ newClient: value });
-    console.log(event.currentTarget.value)
-  }
+  //handleOnchange = (event) => this.setState({ newClient: event.currentTarget.value });
 
   render() {
     const title = "List of clients";
@@ -40,13 +43,11 @@ class App extends React.Component {
       <div>
         <h1> {title}</h1>
         <ul>
-          {this.state.clients.map((client, index) => <li key={index}>{client.name}
-            <button onClick={() => this.handleDelete(client.id)}>x</button></li>)}
+          {this.state.clients.map((client) =>
+            <Client details={client} onDelete={this.handleDelete} />
+          )}
         </ul>
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" placeholder="enter your name" value={this.state.newClient} onChange={this.handleOnchange} />
-          <button>Confirmer</button>
-        </form>
+        <ClientForm onClientAdd={this.handleAdd} />
       </div>
 
     );
