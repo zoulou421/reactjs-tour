@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 
 class App extends React.Component {
+
+  clientInput = React.createRef();
   state = {
     clients: [
       { id: 1, name: "Bonevy BEBY" },
@@ -9,26 +11,40 @@ class App extends React.Component {
       { id: 3, name: "Bonevy BEBY" },
 
     ],
-    counter: 0
+    //  counter: 0
   }
-  handleClick = () => {
-    // this.setState({ counter: this.state.counter + 1 })
+  // handleClick = () => {
+  // this.setState({ counter: this.state.counter + 1 })
+  //   const clients = this.state.clients.slice();
+  //   clients.push({ id: 4, name: "Ketsia BEBY" });
+  //   this.setState({ clients: clients });
+  // }
+  handleDelete = id => {
+    // console.log(id)
     const clients = this.state.clients.slice();
-    clients.push({ id: 4, name: "Ketsia BEBY" });
+    /*const index = clients.findIndex(function (client) {
+      return client.id === id;
+    });*/
+    const index = clients.findIndex((client) => client.id === id);
+    clients.splice(index, 1);
     this.setState({ clients: clients });
   }
+  handleSubmit = event => {
+    event.preventDefault();
+    console.log(this.clientInput.current.value);
+  }
+
   render() {
     const title = "List of clients";
     return (
       <div>
         <h1> {title}</h1>
         <ul>
-          {this.state.counter}
-          <button onClick={this.handleClick}>click me</button>
-          {this.state.clients.map((client, index) => <li key={index}>{client.name}<button>x</button></li>)}
+          {this.state.clients.map((client, index) => <li key={index}>{client.name}
+            <button onClick={() => this.handleDelete(client.id)}>x</button></li>)}
         </ul>
-        <form>
-          <input type="text" placeholder="enter your name" />
+        <form onSubmit={this.handleSubmit}>
+          <input type="text" placeholder="enter your name" ref={this.clientInput} />
           <button>Confirmer</button>
         </form>
       </div>
