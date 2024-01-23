@@ -5,15 +5,17 @@ class App extends React.Component {
   state = {
     clients: [
       { id: 1, name: "Bonevy BEBY" },
-      { id: 1, name: "Bonevy BEBY" },
-      { id: 1, name: "Bonevy BEBY" },
+      { id: 2, name: "Bonevy BEBY" },
+      { id: 3, name: "Bonevy BEBY" },
 
     ],
     counter: 0
   }
   handleClick = () => {
-    this.setState({ counter: this.state.counter + 1 })
-    console.log(this.state)
+    // this.setState({ counter: this.state.counter + 1 })
+    const clients = this.state.clients.slice();
+    clients.push({ id: 4, name: "Ketsia BEBY" });
+    this.setState({ clients: clients });
   }
   render() {
     const title = "List of clients";
